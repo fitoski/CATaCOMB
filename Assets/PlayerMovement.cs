@@ -10,13 +10,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
 
     private InputAction moveAction;
-
+    private Animator animator;
     private bool controlsEnabled = false;
 
     void Awake()
     {
         var playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
+        animator = GetComponent<Animator>();
     }
 
     void OnEnable()
