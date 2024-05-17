@@ -9,26 +9,38 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
 
-    private PlayerControls controls;
+    private InputAction moveAction;
 
     void Awake()
     {
-        controls = new PlayerControls();
-        controls.Player.Move.performed += ctx => movement = ctx.ReadValue<Vector2>();
-        controls.Player.Move.canceled += ctx => movement = Vector2.zero;
+        var playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions["Move"];
     }
 
     void OnEnable()
     {
-        controls.Player.Enable();
+        moveAction.performed += OnMovePerformed;
+        moveAction.canceled += OnMoveCanceled;
+        moveAction.Enable();
     }
 
     void OnDisable()
     {
-        controls.Player.Disable();
+        moveAction.performed -= OnMovePerformed;
+        moveAction.canceled -= OnMoveCanceled;
+        moveAction.Disable();
     }
 
-    // Start is called before the first frame update
+    private void OnMovePerformed(InputAction.CallbackContext context)
+    {
+        movement = context.ReadValue<Vector2>();
+    }
+
+    private void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        movement = Vector2.zero;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();   
@@ -39,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
