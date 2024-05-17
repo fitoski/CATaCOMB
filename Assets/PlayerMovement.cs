@@ -7,15 +7,17 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private Vector2 movement;
-
+    private string lastDirection;
     private InputAction moveAction;
     private Animator animator;
     private bool controlsEnabled = false;
 
     void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         var playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         animator = GetComponent<Animator>();
@@ -48,27 +50,26 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();   
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
     {
-        if(controlsEnabled)
+        if (controlsEnabled)
         {
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-
         }
-        Debug.Log(movement.x);
-        Debug.Log(movement.y);
+
+
         if (movement.x == 0 && movement.y == 0)
         {
             animator.SetBool("IsMoving", false);
-        }else
+        } else
         {
             animator.SetBool("IsMoving", true);
         }
         animator.SetFloat("MoveX", movement.x);
-        if(movement.x != 0)
+        if (movement.x != 0)
         {
             animator.SetFloat("MoveY", 0);
         }
@@ -76,11 +77,14 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetFloat("MoveY", movement.y);
         }
+
+        updateLastDirection();
+        flipOrNotFlip();
     }
 
     void Update()
     {
-        
+
     }
 
     public void EnableControls()
@@ -92,5 +96,34 @@ public class PlayerMovement : MonoBehaviour
     {
         controlsEnabled = false;
         movement = Vector2.zero;
+    }
+    private void updateLastDirection()
+    {
+        if(movement.x< 0)
+        {
+            lastDirection = "left";
+        }else if (movement.x > 0)
+        {
+            lastDirection = "right";
+        }
+        else if (movement.y < 0)
+        {
+            lastDirection = "down";
+        }
+        else if (movement.y > 0)
+        {
+            lastDirection = "up";
+        }    
+    }
+    private void flipOrNotFlip()
+    {
+        if (lastDirection == "left")
+        {
+            spriteRenderer.flipX = true;
+        }
+        else
+        {
+            spriteRenderer.flipX = false;
+        }
     }
 }
