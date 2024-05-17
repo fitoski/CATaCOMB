@@ -60,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log(movement.x);
         Debug.Log(movement.y);
+        animator.SetFloat("MoveX", movement.x);
+        animator.SetBool("IsMoving", true);
     }
 
     void Update()
