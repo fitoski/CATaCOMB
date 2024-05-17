@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     private InputAction moveAction;
 
+    private bool controlsEnabled = false;
+
     void Awake()
     {
         var playerInput = GetComponent<PlayerInput>();
@@ -54,5 +56,15 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void EnableControls()
+    {
+        controlsEnabled = true;
+    }
+
+    public void DisableControls()
+    {
+        controlsEnabled = false;
     }
 }
