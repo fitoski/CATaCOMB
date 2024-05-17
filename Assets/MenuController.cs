@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,8 +29,9 @@ public class MenuController : MonoBehaviour
             selectedButtonIndex = (selectedButtonIndex + 1) % buttons.Length;
             UpdateButtonSelection();
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.J))
         {
+            Debug.Log("jye bastım");
             buttons[selectedButtonIndex].onClick.Invoke();
         }
     }

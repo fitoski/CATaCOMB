@@ -66,5 +66,6 @@ public class PlayerMovement : MonoBehaviour
     public void DisableControls()
     {
         controlsEnabled = false;
+        movement = Vector2.zero;
     }
 }
