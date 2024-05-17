@@ -68,7 +68,14 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsMoving", true);
         }
         animator.SetFloat("MoveX", movement.x);
-        animator.SetFloat("MoveX", movement.y);
+        if(movement.x != 0)
+        {
+            animator.SetFloat("MoveY", 0);
+        }
+        else
+        {
+            animator.SetFloat("MoveY", movement.y);
+        }
     }
 
     void Update()
