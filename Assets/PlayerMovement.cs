@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
         movement = context.ReadValue<Vector2>();
+        Debug.Log(movement);
     }
 
     private void OnMoveCanceled(InputAction.CallbackContext context)
@@ -54,7 +56,12 @@ public class PlayerMovement : MonoBehaviour
         if(controlsEnabled)
         {
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
         }
+        Debug.Log(movement.x);
+        Debug.Log(movement.y);
+        animator.SetFloat("MoveX", movement.x);
+        animator.SetBool("IsMoving", true);
     }
 
     void Update()
